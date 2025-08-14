@@ -1,4 +1,4 @@
-import{cart} from '../data/cart.js';
+import{cart,addToCart} from '../data/cart.js';
 import{products} from '../data/products.js';
 // ..is to get out of the current selected folder
 
@@ -57,39 +57,32 @@ products.forEach((product)=>{
         Add to Cart
       </button>
     </div>
- `  ;
+ `  ;  //data-product-id stores the product’s unique ID inside the button.
+ //Later in JavaScript, when someone clicks "Add to Cart", you can read this ID to know which product they clicked.
 });
 
 document.querySelector('.js-products-grid')
 .innerHTML = productHtml;
 
+
+  function updateCart(){ 
+    let cartQuantity=0;
+    cart.forEach((item)=>{
+      cartQuantity+=item.quantity;
+    })
+    document.querySelector('.js-cart-quantity')
+      .innerHTML=cartQuantity;
+  }
+
 document.querySelectorAll('.js-add-to-cart-button') 
   .forEach((button)=>{
     button.addEventListener('click', () => {
       const productId= button.dataset.productId;
+      addToCart(productId)
+      updateCart()
 
-      let matchingItems;
-      cart.forEach((item)=>{
-        if(productId===item.productId){
-          matchingItems=item;
-        }
-      })
-      if(matchingItems){
-        matchingItems.quantity+=1;
-      }
-      else{
-        cart.push({
-          productId:productId,
-          quantity:1
-        })
-      }
-      let cartQuantity=0;
-      cart.forEach((item)=>{
-        cartQuantity+=item.quantity;
-      })
-      document.querySelector('.js-cart-quantity')
-        .innerHTML=cartQuantity;
-
+    
+        
       console.log(cart);
       console.log(cartQuantity);
     });
