@@ -1,5 +1,7 @@
 import{cart,addToCart} from '../data/cart.js';
 import{products} from '../data/products.js';
+import { formatCurrency } from './utils/money.js';
+// ./ is to select within the urrent file
 // ..is to get out of the current selected folder
 
 //*10 at rating because the rating images are defined as( 40,50,45 )not (4,5,4.5)
@@ -26,7 +28,7 @@ products.forEach((product)=>{
       </div>
 
       <div class="product-price">
-        ${(product.priceCents / 100).toFixed(2)}
+        ${formatCurrency(product.priceCents )}
       </div>
 
       <div class="product-quantity-container">
