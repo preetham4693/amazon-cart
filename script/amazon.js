@@ -2,7 +2,7 @@ import{cart,addToCart} from '../data/cart.js';
 import{products} from '../data/products.js';
 // ..is to get out of the current selected folder
 
-//*10 at rating because the rating images are defined as() 40,50,45 )not (4,5,4.5)
+//*10 at rating because the rating images are defined as( 40,50,45 )not (4,5,4.5)
 //.tofixed() is to get 2 decimal points here
 let productHtml='';
 products.forEach((product)=>{
