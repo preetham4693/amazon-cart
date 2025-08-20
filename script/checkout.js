@@ -2,16 +2,11 @@ import {cart,removeFromCart} from "../data/cart.js";
 import{products} from '../data/products.js';
 import { formatCurrency } from "./utils/money.js";
 
-let cartSummaryHtml='';
-cart.forEach((item)=>{
- const productId=item.productId;
- 
- let matchingProducts;
- products.forEach((product)=>{
-  if(product.id===productId){
-    matchingProducts=product
-  }
- });
+function renderCart() {
+  let cartSummaryHtml = '';
+  cart.forEach((item) => {
+    const matchingProducts = products.find(p => p.id === item.productId);
+    if (!matchingProducts) return;
 
 cartSummaryHtml+=
 
@@ -93,6 +88,7 @@ js-cart-item-container-${matchingProducts.id}">
   </div>
 </div>
 </div>`
+  
 });
 
 document.querySelector('.js-order-summary')
@@ -103,9 +99,22 @@ document.querySelectorAll('.js-delete-quantity')
     link.addEventListener('click',()=>{
       const productId= link.dataset.productId;
       removeFromCart(productId)
-     
-      const container= document.querySelector(`.js-cart-item-container-${productId}`)
-      container.remove()
+      renderCart();
+      updateCartQuantity();
+      });
 
-    })
-  })
+    updateCartQuantity();
+
+  });
+}
+function updateCartQuantity() {
+  const cartQuantity = cart.reduce((total, item) => total + item.quantity, 0);
+  document.querySelector('.js-return-to-home-link').innerText = `${cartQuantity} item${cartQuantity !== 1 ? 's' : ''}`;
+}
+// theabove line is a ternary expression
+
+// Initial render on page load
+renderCart();
+
+ 
+
